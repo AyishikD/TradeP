@@ -1,0 +1,33 @@
+{
+  "name": "tradep",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.0.1",
+    "ioredis": "^5.4.2",
+    "jwt-simple": "^0.5.6",
+    "mqtt": "^5.10.3",
+    "pg": "^8.13.1",
+    "redis": "^4.7.0",
+    "sequelize": "^6.37.5",
+    "socket.io": "^4.8.1",
+    "tls": "^0.0.1",
+    "uuid": "^11.0.5",
+    "winston": "^3.17.0"
+  }
+}
