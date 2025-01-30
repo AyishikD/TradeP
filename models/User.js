@@ -36,10 +36,7 @@ User.init(
       password: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-          len: [8, 100], 
-        },
-      },      
+      },
     },
     {
             sequelize, 
@@ -48,22 +45,4 @@ User.init(
             timestamps: true,
     }
   );
-  
-/**
- * Hash the payment pin and password before saving the user
- */
-User.beforeCreate(async (user) => {
-  if (user.password) {
-    user.password = await bcrypt.hash(user.password, 10); // Hash the password before saving it
-  }
-});
-/**
- * Method to check if the provided password matches the stored hash
- * @param {string} password - The password to check
- * @returns {boolean} - Returns true if the password matches, otherwise false
- */
-User.prototype.validatePassword = async function (password) {
-  return await bcrypt.compare(password, this.password); // Compare the given password with the hashed password
-};
-
 module.exports = User;
