@@ -1,9 +1,105 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36" version="26.0.10">
   <diagram name="Page-1" id="KiAW0J0gSYQ7COskdvUe">
-    <mxGraphModel>
+    <mxGraphModel dx="1120" dy="460" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="5bj9gyKiAtRHMszLav7Z-2" value="Client/API&lt;br&gt;(Frontend or Postman)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="40" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5bj9gyKiAtRHMszLav7Z-3" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.447;exitY=1.05;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="5bj9gyKiAtRHMszLav7Z-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="540" y="270" as="sourcePoint" />
+            <mxPoint x="316" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5bj9gyKiAtRHMszLav7Z-4" value="Express.js API Layer" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="230" y="180" width="170" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="5bj9gyKiAtRHMszLav7Z-5" value="Auth Layer&lt;br&gt;(Using Bcrypt and jwt)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="255" y="270" width="125" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5bj9gyKiAtRHMszLav7Z-6" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="5bj9gyKiAtRHMszLav7Z-4" target="5bj9gyKiAtRHMszLav7Z-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="560" y="340" as="sourcePoint" />
+            <mxPoint x="610" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5bj9gyKiAtRHMszLav7Z-7" value="User Management&lt;br&gt;(Balance, delete etc)&lt;div&gt;&lt;br/&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5bj9gyKiAtRHMszLav7Z-8" value="Order Matching&lt;br&gt;Engine" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5bj9gyKiAtRHMszLav7Z-9" value="Market Data Feed&lt;br&gt;(Real Time)&lt;br&gt;Using MQTT" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="470" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5bj9gyKiAtRHMszLav7Z-10" value="" style="edgeStyle=segmentEdgeStyle;endArrow=classic;html=1;curved=0;rounded=0;endSize=8;startSize=8;exitX=0.136;exitY=1.05;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.45;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="5bj9gyKiAtRHMszLav7Z-5" target="5bj9gyKiAtRHMszLav7Z-7">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="560" y="490" as="sourcePoint" />
+            <mxPoint x="610" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5bj9gyKiAtRHMszLav7Z-11" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.416;exitY=1.033;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="5bj9gyKiAtRHMszLav7Z-5" target="5bj9gyKiAtRHMszLav7Z-8">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="560" y="490" as="sourcePoint" />
+            <mxPoint x="310" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5bj9gyKiAtRHMszLav7Z-13" value="" style="edgeStyle=segmentEdgeStyle;endArrow=classic;html=1;curved=0;rounded=0;endSize=8;startSize=8;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="5bj9gyKiAtRHMszLav7Z-5" target="5bj9gyKiAtRHMszLav7Z-9">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="560" y="490" as="sourcePoint" />
+            <mxPoint x="610" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5bj9gyKiAtRHMszLav7Z-14" value="Database Layer&lt;br&gt;PostgreSQL(Supabase)&lt;br&gt;Stores all data like user info, order details, transactions etc." style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="224" y="540" width="170" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="5bj9gyKiAtRHMszLav7Z-15" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="5bj9gyKiAtRHMszLav7Z-7" target="5bj9gyKiAtRHMszLav7Z-14">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="570" y="570" as="sourcePoint" />
+            <mxPoint x="620" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5bj9gyKiAtRHMszLav7Z-16" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="5bj9gyKiAtRHMszLav7Z-8" target="5bj9gyKiAtRHMszLav7Z-14">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="570" y="570" as="sourcePoint" />
+            <mxPoint x="620" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5bj9gyKiAtRHMszLav7Z-17" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="5bj9gyKiAtRHMszLav7Z-9" target="5bj9gyKiAtRHMszLav7Z-14">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="570" y="570" as="sourcePoint" />
+            <mxPoint x="620" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5bj9gyKiAtRHMszLav7Z-18" value="Redis(Upstash)&lt;br&gt;For caching, storing pending&lt;br&gt;order and queue for&lt;br&gt;execution" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="224" y="770" width="176" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="5bj9gyKiAtRHMszLav7Z-20" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="5bj9gyKiAtRHMszLav7Z-14" target="5bj9gyKiAtRHMszLav7Z-18">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="570" y="810" as="sourcePoint" />
+            <mxPoint x="620" y="760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5bj9gyKiAtRHMszLav7Z-21" value="MQTT Layer&lt;br&gt;Instant stock data&lt;br&gt;transfer and&lt;br&gt;instant order execution communication" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="247" y="920" width="130" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="5bj9gyKiAtRHMszLav7Z-22" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="5bj9gyKiAtRHMszLav7Z-18" target="5bj9gyKiAtRHMszLav7Z-21">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="570" y="950" as="sourcePoint" />
+            <mxPoint x="620" y="900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5bj9gyKiAtRHMszLav7Z-23" value="Realtime market data&lt;br&gt;Using Vantage API" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="252" y="1070" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5bj9gyKiAtRHMszLav7Z-24" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="5bj9gyKiAtRHMszLav7Z-21" target="5bj9gyKiAtRHMszLav7Z-23">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="570" y="1000" as="sourcePoint" />
+            <mxPoint x="620" y="950" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
