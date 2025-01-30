@@ -1,32 +1,24 @@
-const Redis = require('ioredis');
+const { createClient } = require('redis');
 require('dotenv').config();
 
-// Redis client configuration
-const redisHost = process.env.REDIS_HOST || 'balanced-lionfish-44321.upstash.io'; // Your Redis host
-const redisPassword = process.env.REDIS_PASSWORD || ''; // Your Redis password
-
-// If "REDIS_TLS" is truthy, enable TLS for secure connection
-const redisTls = process.env.REDIS_TLS
-  ? { servername: redisHost }
-  : undefined;
-
-// Redis options
-const redisOptions = {
-  host: redisHost,
-  password: redisPassword,
-  tls: redisTls, // Apply TLS if required
-};
-
-const redisClient = new Redis(redisOptions);
-
-// Event listeners for Redis client
-redisClient.on('connect', () => {
-  console.log('✅ Connected to Redis successfully.');
+const redisClient = createClient({
+  url: `redis://default:${process.env.REDIS_PASSWORD}@balanced-lionfish-44321.upstash.io:6379`,
+  socket: {
+    tls: true, // Use TLS for Upstash
+  },
 });
 
-redisClient.on('error', (err) => {
-  console.error('❌ Redis connection error:', err.message);
-});
+redisClient.on('connect', () => console.log('✅ Connected to Redis successfully.'));
+redisClient.on('error', (err) => console.error('❌ Redis connection error:', err.message));
+
+(async () => {
+  try {
+    await redisClient.connect();
+    console.log('✅ Redis client connected.');
+  } catch (error) {
+    console.error('❌ Redis connection failed:', error.message);
+  }
+})();
 
 // Optional: Ping Redis to verify the connection (useful during initialization)
 async function checkRedisConnection() {

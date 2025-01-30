@@ -11,7 +11,7 @@ router.post('/', authenticate, orderController.createOrder); // Change this to c
 router.get('/:id', authenticate, orderController.getOrderBook);
 
 // Get all orders for the authenticated user
-router.get('/', authenticate, orderController.getUserOrders);
+router.get('/all', authenticate, orderController.getUserOrders);
 
 // Cancel an existing order
 router.delete('/:id', authenticate, orderController.cancelOrder);

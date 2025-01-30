@@ -1,4 +1,4 @@
-const redis = require('../config/redis'); // Redis connection
+const { redisClient } = require('../config/redis');
 const { Order } = require('../models/Order'); // Sequelize models
 const { Op } = require('sequelize'); // Sequelize operators
 const { BUY_ORDER_BOOK, SELL_ORDER_BOOK } = require('../utils/constants'); // Redis keys for order books
@@ -11,34 +11,25 @@ const riskManagement = require('../services/riskManagement'); // Risk management
  * @param {Object} res - Express response object.
  */
 async function createOrder(req, res) {
-  const { price, quantity, type, userId } = req.body;
+  const { price, quantity, type } = req.body;
 
-  // Basic validation
-  if (!price || !quantity || !type || !userId) {
+  if (!price || !quantity || !type) {
     return res.status(400).json({ error: 'Missing required fields.' });
   }
 
   try {
-    // Perform risk checks before proceeding
-    const riskCheck = await riskManagement.validateOrder({ price, quantity, type, userId });
+    const riskCheck = await riskManagement.validateOrder({ price, quantity, type });
     if (!riskCheck.success) {
       return res.status(400).json({ error: riskCheck.message });
     }
 
-    // Save order to the database
-    const newOrder = await Order.create({ price, quantity, type, userId });
+    const newOrder = await Order.create({ price, quantity, type });
 
-    // Add order to the Redis order book
-    const orderData = { id: newOrder.id, price, quantity, userId, timestamp: Date.now() };
-    if (type === 'buy') {
-      await redis.zadd(BUY_ORDER_BOOK, price, JSON.stringify(orderData));
-    } else if (type === 'sell') {
-      await redis.zadd(SELL_ORDER_BOOK, price, JSON.stringify(orderData));
-    } else {
-      return res.status(400).json({ error: 'Invalid order type.' });
-    }
+    const orderData = { id: newOrder.id, price, quantity, timestamp: Date.now() };
+    const orderKey = type === 'buy' ? BUY_ORDER_BOOK : SELL_ORDER_BOOK;
 
-    // Trigger order matching
+    await redisClient.zAdd(orderKey, [{ score: price, value: JSON.stringify(orderData) }]);
+
     await matchController.matchOrders(type);
 
     res.status(201).json({ message: 'Order created successfully.', order: newOrder });
@@ -50,8 +41,6 @@ async function createOrder(req, res) {
 
 /**
  * Get all orders for a user.
- * @param {Object} req - Express request object.
- * @param {Object} res - Express response object.
  */
 async function getUserOrders(req, res) {
   const { userId } = req.params;
@@ -71,32 +60,34 @@ async function getUserOrders(req, res) {
 
 /**
  * Cancel an order by ID.
- * @param {Object} req - Express request object.
- * @param {Object} res - Express response object.
  */
 async function cancelOrder(req, res) {
   const { orderId } = req.params;
 
   try {
-    // Find the order in the database
     const order = await Order.findByPk(orderId);
-
     if (!order) {
       return res.status(404).json({ error: 'Order not found.' });
     }
 
-    // Delete the order from the database
     await order.destroy();
 
-    // Remove the order from the Redis order book
-    const orderBookKey = order.type === 'buy' ? BUY_ORDER_BOOK : SELL_ORDER_BOOK;
-    const orderData = JSON.stringify({
-      id: order.id,
-      price: order.price,
-      quantity: order.quantity,
-      userId: order.userId,
-    });
-    await redis.zrem(orderBookKey, orderData);
+    const orderKey = order.type === 'buy' ? BUY_ORDER_BOOK : SELL_ORDER_BOOK;
+    const orders = await redisClient.zRange(orderKey, 0, -1, { WITHSCORES: true });
+
+    // Find the correct order in Redis
+    let orderToRemove = null;
+    for (let i = 0; i < orders.length; i += 2) {
+      const parsedOrder = JSON.parse(orders[i]);
+      if (parsedOrder.id === order.id) {
+        orderToRemove = orders[i];
+        break;
+      }
+    }
+
+    if (orderToRemove) {
+      await redisClient.zRem(orderKey, orderToRemove);
+    }
 
     res.status(200).json({ message: 'Order canceled successfully.' });
   } catch (error) {
@@ -106,14 +97,12 @@ async function cancelOrder(req, res) {
 }
 
 /**
- * Get the order book (buy and sell orders).
- * @param {Object} req - Express request object.
- * @param {Object} res - Express response object.
+ * Get the order book.
  */
 async function getOrderBook(req, res) {
   try {
-    const buyOrders = await redis.zrange(BUY_ORDER_BOOK, 0, -1, 'WITHSCORES');
-    const sellOrders = await redis.zrange(SELL_ORDER_BOOK, 0, -1, 'WITHSCORES');
+    const buyOrders = await redisClient.zRange(BUY_ORDER_BOOK, 0, -1, { WITHSCORES: true });
+    const sellOrders = await redisClient.zRange(SELL_ORDER_BOOK, 0, -1, { WITHSCORES: true });
 
     res.status(200).json({
       buyOrders: formatOrders(buyOrders),
@@ -127,8 +116,6 @@ async function getOrderBook(req, res) {
 
 /**
  * Format Redis order data into structured objects.
- * @param {Array} orderData - Array of order data from Redis.
- * @returns {Array} Formatted order objects.
  */
 function formatOrders(orderData) {
   const formattedOrders = [];
@@ -141,8 +128,8 @@ function formatOrders(orderData) {
 }
 
 module.exports = {
-    createOrder,        // Exporting the correct method name
-    getUserOrders,
-    cancelOrder,
-    getOrderBook,
-  };
+  createOrder,
+  getUserOrders,
+  cancelOrder,
+  getOrderBook,
+};

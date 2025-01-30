@@ -1,4 +1,4 @@
-const redis = require('../config/redis');
+const redisClient = require('../config/redis');
 const mqtt = require('mqtt');
 const { v4: uuidv4 } = require('uuid');
 const { Order } = require('../models/Order');
@@ -37,7 +37,10 @@ class MatchingEngine {
       timestamp: Date.now(),
     };
 
-    await redis.zadd(`orders:${symbol}:${type}`, price, JSON.stringify(order));
+    await redisClient.zAdd(`orders:${symbol}:${type}`, {
+      score: price,
+      value: JSON.stringify(order),
+    });
     console.log(`📌 Order added to book: ${JSON.stringify(order)}`);
     return order;
   }
@@ -49,7 +52,7 @@ class MatchingEngine {
    * @returns {Array} - List of orders
    */
   async getOrders(symbol, type) {
-    const orders = await redis.zrange(`orders:${symbol}:${type}`, 0, -1);
+    const orders = await redisClient.zRange(`orders:${symbol}:${type}`, 0, -1);
     return orders.map((order) => JSON.parse(order));
   }
 
@@ -116,9 +119,9 @@ class MatchingEngine {
   async removeOrder(orderId, symbol, type) {
     const orders = await this.getOrders(symbol, type);
     const updatedOrders = orders.filter((order) => order.id !== orderId);
-    await redis.del(`orders:${symbol}:${type}`);
+    await redisClient.del(`orders:${symbol}:${type}`);
     updatedOrders.forEach(async (order) => {
-      await redis.zadd(`orders:${symbol}:${type}`, order.price, JSON.stringify(order));
+      await redisClient.zAdd(`orders:${symbol}:${type}`, { score: order.price, value: JSON.stringify(order) });
     });
   }
 

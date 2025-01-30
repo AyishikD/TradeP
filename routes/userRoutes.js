@@ -17,5 +17,5 @@ router.get('/me', authenticate, userController.getUserProfile); // Call getUserP
 router.put('/update-profile', authenticate, userController.updateBalance); // Call updateBalance here
 
 // Change user password
-router.put('/change-password', authenticate, userController.updateBalance); // If you have a changePassword function
+router.delete('/delete', authenticate, userController.deleteUser); // If you have a changePassword function
 module.exports = router;
