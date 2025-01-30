@@ -1,4 +1,4 @@
-# 🚀 PTrade - Backend-Only Trading Engine
+# 🚀 TradeP - Backend-Only Trading Engine
 
 PTrade is a high-performance, backend-only trading engine built with **Node.js, Express.js, and PostgreSQL (via Supabase)**. It features real-time order matching, market data processing, and caching using **Redis (Upstash)** and **MQTT** for real-time communication.
 
