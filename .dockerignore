@@ -1,0 +1,42 @@
+# Node dependencies
+node_modules
+npm-debug.log
+package-lock.json
+
+# Logs
+*.log
+logs/
+debug.log
+
+# Git
+.git
+.gitignore
+
+# Docker
+.dockerignore
+Dockerfile
+
+# Environment & config
+.env
+.env.*
+
+# Editor & OS junk
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Test & coverage
+test/
+__tests__/
+coverage/
+
+# Docs / Design files
+*.md
+*.drawio
+
+# Local DB / files
+*.sqlite
+*.bak
+*.zip
